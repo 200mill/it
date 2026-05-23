@@ -1,3 +1,8 @@
 [workspace]
 resolver = "2"
 members = ["backend", "boot", "bot", "core", "migration"]
+
+[workspace.dependencies]
+serenity = "0.12"
+tokio = { version = "1.52.3", features = ["macros", "rt-multi-thread"] }
+poise = "0.6"
