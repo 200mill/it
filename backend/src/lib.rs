@@ -1,14 +1,18 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+#[allow(unused_imports)]
+use axum::{
+    routing::{get, post},
+    Router,
+};
+use std::env;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[tokio::main]
+#[allow(unused)]
+async fn main() {
+    let app = Router::new()
+    ;
+    let port = env::var("PORT").unwrap();
+    let addr = format!("0.0.0.0:{}", port);
+    let listner = tokio::net::TcpListener::bind(addr).await.unwrap();
+    axum::serve(listner, app);
 }
