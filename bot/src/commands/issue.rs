@@ -1,13 +1,12 @@
 use crate::{Context, Error};
 
-#[allow(unused)]
+
 #[poise::command(slash_command,
     subcommands("new", "list", "close", "edit"))]
 pub async fn issue(ctx: Context<'_>) -> Result<(), Error> {
     Ok(())
 }
 
-#[allow(unused)]
 #[poise::command(slash_command)]
 pub async fn new(ctx: Context<'_>,
     #[description = "The priority of issue"]
@@ -38,7 +37,6 @@ pub enum IssueSort {
     Priority,
 }
 
-#[allow(unused)]
 #[poise::command(slash_command)]
 pub async fn list(
     ctx: Context<'_>,
@@ -49,7 +47,6 @@ pub async fn list(
     Ok(())
 }
 
-#[allow(unused)]
 #[poise::command(slash_command)]
 pub async fn close(ctx: Context<'_>,
     #[description = "Issue ID"]
@@ -58,7 +55,6 @@ pub async fn close(ctx: Context<'_>,
     Ok(())
 }
 
-#[allow(unused)]
 #[poise::command(slash_command)]
 pub async fn edit(ctx: Context<'_>,
     #[description = "Issue ID"]
