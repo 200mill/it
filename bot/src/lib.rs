@@ -20,7 +20,7 @@ async fn main() {
     let framework = poise::Framework::<Data, Error>::builder()
         .options(poise::FrameworkOptions {
             commands: vec![
-                commands::ping()
+                commands::ping::ping()
             ],
             ..Default::default()
         })
