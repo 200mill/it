@@ -1,0 +1,10 @@
+# Secrets are injected at runtime via compose env_file, never baked into the image.
+.env
+
+# Build output and local tooling — keep the build context small.
+target
+.git
+.direnv
+.jj
+**/*.log
+result
