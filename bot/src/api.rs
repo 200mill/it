@@ -170,7 +170,12 @@ impl Api {
     }
 
     pub async fn create_issue(&self, body: &CreateIssue) -> Result<Issue, Error> {
-        let resp = self.http.post(self.url("/issues")).json(body).send().await?;
+        let resp = self
+            .http
+            .post(self.url("/issues"))
+            .json(body)
+            .send()
+            .await?;
         json_ok(resp).await
     }
 
@@ -194,7 +199,11 @@ impl Api {
     }
 
     pub async fn get_issue(&self, id: i64) -> Result<IssueDetail, Error> {
-        let resp = self.http.get(self.url(&format!("/issues/{id}"))).send().await?;
+        let resp = self
+            .http
+            .get(self.url(&format!("/issues/{id}")))
+            .send()
+            .await?;
         json_ok(resp).await
     }
 
@@ -271,7 +280,11 @@ impl Api {
         json_ok(resp).await
     }
 
-    pub async fn draft_message(&self, draft_id: i64, content: String) -> Result<MessageReply, Error> {
+    pub async fn draft_message(
+        &self,
+        draft_id: i64,
+        content: String,
+    ) -> Result<MessageReply, Error> {
         let resp = self
             .http
             .post(self.url(&format!("/summary/drafts/{draft_id}/messages")))

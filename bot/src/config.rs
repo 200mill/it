@@ -31,7 +31,10 @@ impl Config {
             guild_id: parse_id("GUILD_ID").map(GuildId::new),
             issue_channel_id: parse_id("ISSUE_CHANNEL_ID").map(ChannelId::new),
             forum_issue_channel_id: parse_id("FORUM_ISSUE_CHANNEL_ID").map(ChannelId::new),
-            dev_user_ids: parse_id_list("DEV_USER_IDS").into_iter().map(UserId::new).collect(),
+            dev_user_ids: parse_id_list("DEV_USER_IDS")
+                .into_iter()
+                .map(UserId::new)
+                .collect(),
             redis_url: env::var("REDIS_URL").ok().filter(|s| !s.is_empty()),
         }
     }

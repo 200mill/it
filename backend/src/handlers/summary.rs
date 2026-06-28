@@ -61,11 +61,13 @@ pub async fn message(
         return Err(AppError::BadRequest("draft is no longer pending".into()));
     }
 
-    sqlx::query("INSERT INTO summary_draft_messages (draft_id, role, content) VALUES ($1, 'user', $2)")
-        .bind(id)
-        .bind(&req.content)
-        .execute(&state.pool)
-        .await?;
+    sqlx::query(
+        "INSERT INTO summary_draft_messages (draft_id, role, content) VALUES ($1, 'user', $2)",
+    )
+    .bind(id)
+    .bind(&req.content)
+    .execute(&state.pool)
+    .await?;
 
     let history = sqlx::query_as::<_, DraftMessage>(
         "SELECT role, content FROM summary_draft_messages WHERE draft_id = $1 ORDER BY id ASC",

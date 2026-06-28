@@ -109,7 +109,11 @@ async fn relay_draft(
                 .send_message(
                     &ctx.http,
                     CreateMessage::new()
-                        .embed(CreateEmbed::new().title("Issue draft").description(reply.reply))
+                        .embed(
+                            CreateEmbed::new()
+                                .title("Issue draft")
+                                .description(reply.reply),
+                        )
                         .components(draft_buttons(draft_id)),
                 )
                 .await?;
@@ -164,7 +168,12 @@ async fn confirm_draft(
             .await;
     }
 
-    ack(ctx, mci, &format!("Created issue #{}. Closing this channel.", issue.id)).await?;
+    ack(
+        ctx,
+        mci,
+        &format!("Created issue #{}. Closing this channel.", issue.id),
+    )
+    .await?;
     let _ = channel.delete(&ctx.http).await;
     Ok(())
 }

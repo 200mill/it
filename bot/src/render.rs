@@ -1,5 +1,5 @@
 use poise::serenity_prelude as serenity;
-use serenity::{CreateEmbed, Colour};
+use serenity::{Colour, CreateEmbed};
 
 use crate::api::{Issue, Priority, Status};
 

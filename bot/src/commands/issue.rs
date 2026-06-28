@@ -105,7 +105,8 @@ pub async fn new(
     #[description = "The priority of the issue"] priority: Option<PriorityChoice>,
 ) -> Result<(), Error> {
     let Some(guild_id) = ctx.guild_id() else {
-        ctx.say("This command can only be used in a server.").await?;
+        ctx.say("This command can only be used in a server.")
+            .await?;
         return Ok(());
     };
     let data = ctx.data();
@@ -138,7 +139,8 @@ pub async fn new(
 
     // Otherwise show a modal and start the AI summary draft flow.
     let poise::Context::Application(actx) = ctx else {
-        ctx.say("This command must be used as a slash command.").await?;
+        ctx.say("This command must be used as a slash command.")
+            .await?;
         return Ok(());
     };
     let Some(modal) = NewIssueModal::execute(actx).await? else {
@@ -150,8 +152,16 @@ pub async fn new(
         modal.title,
         modal.description.unwrap_or_default()
     );
-    let temp = start_draft(ctx.serenity_context(), data, guild_id, author, priority, Some(initial), None)
-        .await?;
+    let temp = start_draft(
+        ctx.serenity_context(),
+        data,
+        guild_id,
+        author,
+        priority,
+        Some(initial),
+        None,
+    )
+    .await?;
 
     ctx.send(
         poise::CreateReply::default()
@@ -182,17 +192,16 @@ pub async fn list(
         .list_issues(Some(status.as_param()), Some(sort))
         .await?;
 
-    ctx.send(poise::CreateReply::default().embed(render::issue_list_embed(&issues, status.as_param())))
-        .await?;
+    ctx.send(
+        poise::CreateReply::default().embed(render::issue_list_embed(&issues, status.as_param())),
+    )
+    .await?;
     Ok(())
 }
 
 /// Close an issue (devs only, in the issue channel).
 #[poise::command(slash_command)]
-pub async fn close(
-    ctx: Context<'_>,
-    #[description = "Issue ID"] issue: i64,
-) -> Result<(), Error> {
+pub async fn close(ctx: Context<'_>, #[description = "Issue ID"] issue: i64) -> Result<(), Error> {
     if let Err(msg) = guard_dev_in_issue_channel(&ctx) {
         ctx.send(poise::CreateReply::default().ephemeral(true).content(msg))
             .await?;
@@ -223,10 +232,7 @@ pub async fn close(
 
 /// Edit an issue (devs only, in the issue channel).
 #[poise::command(slash_command)]
-pub async fn edit(
-    ctx: Context<'_>,
-    #[description = "Issue ID"] issue: i64,
-) -> Result<(), Error> {
+pub async fn edit(ctx: Context<'_>, #[description = "Issue ID"] issue: i64) -> Result<(), Error> {
     if let Err(msg) = guard_dev_in_issue_channel(&ctx) {
         ctx.send(poise::CreateReply::default().ephemeral(true).content(msg))
             .await?;
@@ -236,7 +242,8 @@ pub async fn edit(
     let current = ctx.data().api.get_issue(issue).await?;
 
     let poise::Context::Application(actx) = ctx else {
-        ctx.say("This command must be used as a slash command.").await?;
+        ctx.say("This command must be used as a slash command.")
+            .await?;
         return Ok(());
     };
     let defaults = EditIssueModal {
@@ -277,7 +284,8 @@ pub async fn create_issue(
     #[description = "Message to base the issue on"] message: serenity::Message,
 ) -> Result<(), Error> {
     let Some(guild_id) = ctx.guild_id() else {
-        ctx.say("This command can only be used in a server.").await?;
+        ctx.say("This command can only be used in a server.")
+            .await?;
         return Ok(());
     };
     let data = ctx.data();
@@ -473,7 +481,10 @@ pub async fn post_issue(
         .ok_or("ISSUE_CHANNEL_ID is not configured")?;
 
     let msg = channel
-        .send_message(&ctx.http, CreateMessage::new().embed(render::issue_embed(issue)))
+        .send_message(
+            &ctx.http,
+            CreateMessage::new().embed(render::issue_embed(issue)),
+        )
         .await?;
 
     data.api
